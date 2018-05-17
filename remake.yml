@@ -1,0 +1,35 @@
+#
+# remake.yml for `ARB` package (DATA ONLY)
+#
+
+packages:
+  - tidyverse
+  - strtools
+  - tbltools
+  - geotools
+  - sf
+
+sources:
+  - data-raw/make_CoAbDis.R
+
+targets:
+
+  all:
+    depends:
+      data
+
+  data:
+    depends:
+      - data/ARB_CoAbDis.rda
+
+  data/ARB_CoAbDis.rda:
+    command: use_data(ARB_CoAbDis, overwrite = TRUE)
+
+  ARB_CoAbDis:
+    command: make_ARB_CoAbDis(
+      zip_file = "tmp/ca_co_ab_dis.zip")
+
+  tmp/ca_co_ab_dis.zip:
+    command: download_ARB_CoAbDis(
+      destfile = "tmp/ca_co_ab_dis.zip")
+
