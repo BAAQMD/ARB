@@ -1,24 +1,12 @@
 make_ARB_CoAbDis <- function (zip_file, layer = "CoAbDis", tmpdn = tempdir()) {
 
-  message("unzipping ", zip_file, " into ", tmpdn)
+  require(shptools) # for `read_shp()`
 
-  dsn <-
-    normalizePath(tmpdn)
-
-  unzipped_filenames <-
-    unzip(zip_file, exdir = dsn, junkpaths = TRUE)
-
-  if (is.null(layer)) {
-    layer <-
-      unzipped_filenames %>%
-      map_chr(basename) %>%
-      keep(str_detect, pattern = "shp$") %>%
-      tools::file_path_sans_ext() %>%
-      first()
-  }
+  imported <-
+    read_shp(dsn = dsn, layer = layer, verbose = TRUE)
 
   reprojected <-
-    read_sf(dsn = dsn, layer = layer) %>%
+    imported %>%
     st_transform(st_crs(26910)) # NAD83 UTM10
 
   tidied <-
