@@ -17,11 +17,16 @@ make_ARB_CoAbDis <- function (zip_file, layer = "CoAbDis", tmpdn = tempdir()) {
       first()
   }
 
-  sf_obj <-
+  reprojected <-
     read_sf(dsn = dsn, layer = layer) %>%
     st_transform(st_crs(26910)) # NAD83 UTM10
 
-  return(sf_obj)
+  tidied <-
+    reprojected %>%
+    mutate_at(vars(COABDIS_AR), funs(as.character)) %>%
+    mutate_at(vars(ends_with("_ID")), funs(as.integer))
+
+  return(tidied)
 
 }
 
