@@ -1,7 +1,7 @@
 Package: ARB
 Type: Package
 Title: Provides California Air Resources Board (ARB) Datasets
-Version: 2018.05.16
+Version: 2018.05.17
 Author: David Holstius
 Maintainer: David Holstius <dholstius@baaqmd.gov>
 Description: Part of the BAAQMD inventoryverse.
